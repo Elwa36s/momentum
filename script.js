@@ -3,8 +3,10 @@ const time = document.querySelector('.time'),
       greeting = document.querySelector('.greeting'),
       name = document.querySelector('.name'),
       focus = document.querySelector('.focus'),
-      day = document.querySelector('.day');
-      localStorage.setItem('name', '[Введите имя]')
+      day = document.querySelector('.day'),
+      blockquote = document.querySelector('blockquote'),
+      figcaption = document.querySelector('figcaption'),
+      btnQot = document.querySelector('.btn2');
 // Опции
 const showAmPm = false,
       formatTime12 = false;
@@ -218,3 +220,16 @@ function getImage() {
 } 
 const btn = document.querySelector('.btn');
 btn.addEventListener('click', getImage);
+
+
+//Смена цитаты
+let j = 0;
+async function getQuote() {  
+  const url = `https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=ru`;
+  const res = await fetch(url);
+  const data = await res.json(); 
+  blockquote.textContent = data.quoteText;
+  figcaption.textContent = data.quoteAuthor;
+}
+//document.addEventListener('DOMContentLoaded', getQuote);
+btnQot.addEventListener('click', getQuote);
