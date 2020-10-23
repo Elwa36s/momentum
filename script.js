@@ -3,8 +3,10 @@ const time = document.querySelector('.time'),
       greeting = document.querySelector('.greeting'),
       name = document.querySelector('.name'),
       focus = document.querySelector('.focus'),
-      day = document.querySelector('.day');
-
+      day = document.querySelector('.day'),
+      blockquote = document.querySelector('blockquote'),
+      figcaption = document.querySelector('figcaption'),
+      btnQot = document.querySelector('.btn2');
 // Опции
 const showAmPm = false,
       formatTime12 = false;
@@ -36,6 +38,8 @@ function showTime() {
 
 
 
+
+
   // Вывод времени и дня
   time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(
     sec
@@ -50,59 +54,81 @@ function addZero(n) {
 }
 
 // Установка фона и приветсвие
-let folder = '';
+   let folder = '';
 function setBgGreet() {
+
+
+ 
   let today = new Date(),
     hour = today.getHours();
-  if (hour < 12) {
+    h = hour;
+  if (hour < 12 && hour >= 6) {
     // Утро
-    document.body.style.backgroundImage =
-    "url('https://i.ibb.co/7vDLJFb/morning.jpg')";
+    h -= 6;
     folder = 'morning';
+    const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
+    document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Доброе утро, ';
   } else if (hour < 18) {
     // День
-    document.body.style.backgroundImage =
-      "url('https://i.ibb.co/3mThcXc/afternoon.jpg')";
-      folder = 'day';
-    greeting.textContent = 'Добрый день, ';
+    h -= 12;
+    folder = 'day';
+    const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
+    document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
+      greeting.textContent = 'Добрый день, ';
   } else if (hour < 24){
     // Вечер
-    document.body.style.backgroundImage =
-      "url('https://i.ibb.co/924T2Wv/evening.jpg')";
-      folder = 'evening';
+    h -= 18;
+    folder = 'evening';
+    const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
+    document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Добрый вечер, ';
     document.body.style.color = 'white';
+    document.body.style.textShadow = '3px 2px 6px #000000';
     // Ночь
-    } else {  document.body.style.backgroundImage =
-      "url('https://i.ibb.co/924T2Wv/night.jpg')";
+    } else if (hour < 6){ 
       folder = 'night';
+      const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
+      document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Доброй ночи, ';
     document.body.style.color = 'white';
+    document.body.style.textShadow = '3px 2px 6px #000000';
   }
 }
 
-// Поле имени
-function getName() {
-  if (localStorage.getItem('name') === null) {
-    name.textContent = '[Введите имя]';
-  } else {
-    name.textContent = localStorage.getItem('name');
-  }
-}
 
 // Ввод имени
 function setName(e) {
+  let enteribleText = e.target.innerText;
   if (e.type === 'keypress') {
     // Нажат ли enter?
     if (e.which == 13 || e.keyCode == 13) {
-      localStorage.setItem('name', e.target.innerText);
       name.blur();
-    }
+      console.log(+enteribleText);
+      if (+enteribleText !== null) {
+        localStorage.setItem('name', e.target.innerText);
+      }
   } else {
-    localStorage.setItem('name', e.target.innerText);
+    if (+enteribleText !== null) {
+      localStorage.setItem('name', e.target.innerText);
+    }
+  
+  }
   }
 }
+
+
+// Поле имени
+function getName() {
+ name.addEventListener('click', function() {name.textContent = ''});
+ /* if (localStorage.getItem('name') === null) {
+    name.textContent = '[Введите имя]';
+  } else { */
+    name.textContent = localStorage.getItem('name');
+  /*}*/
+}
+ 
+
 
 // Поле цели
 function getFocus() {
@@ -140,25 +166,27 @@ getFocus();
 //Погода
 const weatherIcon = document.querySelector('.weather-icon');
 const temperature = document.querySelector('.temperature');
-const weatherDescription = document.querySelector('.weather-description');
+const weatherHumidity = document.querySelector('.weather-Humidity');
 const city = document.querySelector('.city');
+const wind = document.querySelector('.wind');
 
 //Вывод погоды
 async function getWeather() {  
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&lang=ru&appid=4ecbcc47cf223a32117b4ef59cbe227c&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
-
+  
   weatherIcon.className = 'weather-icon owf';
   weatherIcon.classList.add(`owf-${data.weather[0].id}`);
   temperature.textContent = `${data.main.temp}°C`;
-  weatherDescription.textContent = data.weather[0].description;
+  weatherHumidity.textContent = `Относительная влажность ${data.main.humidity}%`;
+  wind.textContent = `Скорость ветра ${data.wind.speed} м/с`
 }
 
 
 //Выбор города
 function setCity(event) {
-  if (e.type === 'keypress') {
+  if (event.type === 'keypress') {
     // Нажат ли enter?
     if (event.code === 'Enter') {
      getWeather();
@@ -169,12 +197,11 @@ function setCity(event) {
 document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
 
-//Смена фона
-const base = `https://raw.githubusercontent.com/irinainina/ready-projects/momentum/momentum/assets/images/${folder}/`;
-const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
 let i = 0;
-
-function viewBgImage(data) {
+const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
+const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
+ //Смена фона
+ function viewBgImage(data) {
   const body = document.querySelector('body');
   const src = data;
   const img = document.createElement('img');
@@ -193,3 +220,16 @@ function getImage() {
 } 
 const btn = document.querySelector('.btn');
 btn.addEventListener('click', getImage);
+
+
+//Смена цитаты
+let j = 0;
+async function getQuote() {  
+  const url = `https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=ru`;
+  const res = await fetch(url);
+  const data = await res.json(); 
+  blockquote.textContent = data.quoteText;
+  figcaption.textContent = data.quoteAuthor;
+}
+//document.addEventListener('DOMContentLoaded', getQuote);
+btnQot.addEventListener('click', getQuote);
