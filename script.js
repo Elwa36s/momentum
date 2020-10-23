@@ -225,11 +225,11 @@ btn.addEventListener('click', getImage);
 //Смена цитаты
 let j = 0;
 async function getQuote() {  
-  const url = `https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=ru`;
+  const url = `https://api.chucknorris.io/jokes/random`;
   const res = await fetch(url);
   const data = await res.json(); 
-  blockquote.textContent = data.quoteText;
-  figcaption.textContent = data.quoteAuthor;
+  blockquote.textContent = data.value;
+  figcaption.textContent = ['True story'];
 }
 //document.addEventListener('DOMContentLoaded', getQuote);
 btnQot.addEventListener('click', getQuote);
