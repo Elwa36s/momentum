@@ -82,6 +82,7 @@ function setBgGreet() {
     document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Добрый вечер, ';
     document.body.style.color = 'white';
+    document.body.style.textShadow = '3px 2px 6px #000000';
     // Ночь
     } else if (hour < 6){ 
       folder = 'night';
@@ -89,6 +90,7 @@ function setBgGreet() {
       document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Доброй ночи, ';
     document.body.style.color = 'white';
+    document.body.style.textShadow = '3px 2px 6px #000000';
   }
 }
 
