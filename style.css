@@ -2,34 +2,34 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  text-shadow: 3px 2px 6px #FFFFFF;
 }
 
 body {
   font-family: 'Quicksand', sans-serif;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100vh;
   background-size: cover;
+  background-position: center center;
+  transition: background-image 1s ease-in-out;
   color: #000000;
 }
-#content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: url(https://i.ibb.co/fNNy1F7/overlay.png);
-  opacity: 0.2;
-}
+
 .time {
   font-size: 8rem;
 }
 
 h1 {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
-
+h4 {
+  margin-bottom: 0.5rem;
+}
 h2 {
   margin-bottom: 0.5rem;
   opacity: 0.8;
@@ -43,32 +43,67 @@ h2 {
 
 h4 {
 justify-self: baseline;
-margin-left: 5%;
 }
-
+#humidityWind {
+  margin: 0;
+  margin-left: 5%
+}
+#cityTemp {
+  margin: 0;
+  justify-self: center;
+}
 #upperRow {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
+justify-content: space-between;
+}
+#lowerRow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 }
+.quote {
+  justify-self: baseline;
+margin-left: 5%;
+}
+#btn2 {
+  justify-self: ;
+  align-self: center;
+  }
+
 #btn {
-  justify-self: end;
-  margin-right: 5%;
+  /*justify-self: end;
+  margin-right: 5%;*/
 }
 .btn {
-
   width: 60px;
   height: 60px;
   border: 0;
   border-radius: 50%;
-  background-image: url("https://www.pngarts.com/files/7/Update-Button-PNG-Image.png");
+  background-image: url("https://github.com/Elwa36s/momentum/blob/dev/assets/images/refresh1.png?raw=true"); 
   background-size: contain;
+  background-position: center center;
   background-repeat: no-repeat;
   filter: grayscale(.8);
 
 }
+.btn2 {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background-image: url("https://github.com/Elwa36s/momentum/blob/dev/assets/images/refresh1.png?raw=true"); 
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: grayscale(.8);
+
+}
+
 .btn:hover {
   filter: grayscale(.5);
 }
