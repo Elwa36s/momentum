@@ -55,31 +55,32 @@ function addZero(n) {
 
 // Установка фона и приветсвие
    let folder = '';
+   let allTimes = ['morning', 'day', 'evening', 'night'];
+   let j;
 function setBgGreet() {
-
-
- 
   let today = new Date(),
-    hour = today.getHours();
-    h = hour;
+    hour = today.getHours(),
+    h = hour % 20;
   if (hour < 12 && hour >= 6) {
     // Утро
-    h -= 6;
-    folder = 'morning';
+    j = 0;
+    folder = allTimes[j];
     const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
     document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Доброе утро, ';
   } else if (hour < 18) {
     // День
-    h -= 12;
-    folder = 'day';
+    j = 1;
+   
+    folder = allTimes[j];
     const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
     document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
       greeting.textContent = 'Добрый день, ';
   } else if (hour < 24){
     // Вечер
-    h -= 18;
-    folder = 'evening';
+    
+    j = 2;
+    folder = allTimes[j];
     const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
     document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Добрый вечер, ';
@@ -87,7 +88,8 @@ function setBgGreet() {
     document.body.style.textShadow = '3px 2px 6px #000000';
     // Ночь
     } else if (hour < 6){ 
-      folder = 'night';
+      j = 3;
+      folder = allTimes[j];
       const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
       document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
     greeting.textContent = 'Доброй ночи, ';
@@ -99,39 +101,42 @@ function setBgGreet() {
 
 // Ввод имени
 function setName(e) {
-  let enteribleText = e.target.innerText;
   if (e.type === 'keypress') {
-    // Нажат ли enter?
+    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
-      name.blur();
-      console.log(+enteribleText);
-      if (+enteribleText !== null) {
-        localStorage.setItem('name', e.target.innerText);
-      }
-  } else {
-    if (+enteribleText !== null) {
       localStorage.setItem('name', e.target.innerText);
+      name.blur();
+      getName();
     }
-  
+  } else {
+    localStorage.setItem('name', e.target.innerText);
+     getName();
   }
-  }
+ 
 }
 
 
 // Поле имени
 function getName() {
  name.addEventListener('click', function() {name.textContent = ''});
- /* if (localStorage.getItem('name') === null) {
+ let currentName = localStorage.getItem('name');
+  if (currentName === '') { 
+    localStorage.removeItem('name');
+  }
+ if (localStorage.getItem('name') === null) {
     name.textContent = '[Введите имя]';
-  } else { */
+  } else { 
     name.textContent = localStorage.getItem('name');
-  /*}*/
+  }
 }
- 
-
 
 // Поле цели
 function getFocus() {
+  focus.addEventListener('click', function() {focus.textContent = ''});
+ let currentName = localStorage.getItem('focus');
+  if (currentName === '') { 
+    localStorage.removeItem('focus');
+  }
   if (localStorage.getItem('focus') === null) {
     focus.textContent = '[Введите цель]';
   } else {
@@ -146,22 +151,24 @@ function setFocus(e) {
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
+      getFocus()
     }
   } else {
     localStorage.setItem('focus', e.target.innerText);
+    getFocus()
   }
 }
-
-name.addEventListener('keypress', setName);
-name.addEventListener('blur', setName);
-focus.addEventListener('keypress', setFocus);
-focus.addEventListener('blur', setFocus);
-
 // Запуск
 showTime();
 setBgGreet();
 getName();
 getFocus();
+name.addEventListener('keypress', setName);
+name.addEventListener('blur', setName);
+focus.addEventListener('keypress', setFocus);
+focus.addEventListener('blur', setFocus);
+
+
 
 //Погода
 const weatherIcon = document.querySelector('.weather-icon');
@@ -171,6 +178,7 @@ const city = document.querySelector('.city');
 const wind = document.querySelector('.wind');
 
 //Вывод погоды
+
 async function getWeather() {  
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&lang=ru&appid=4ecbcc47cf223a32117b4ef59cbe227c&units=metric`;
   const res = await fetch(url);
@@ -182,23 +190,45 @@ async function getWeather() {
   weatherHumidity.textContent = `Относительная влажность ${data.main.humidity}%`;
   wind.textContent = `Скорость ветра ${data.wind.speed} м/с`
 }
-
-
+let previousCity;
 //Выбор города
 function setCity(event) {
+  console.log('event.type = ' + event.type);
   if (event.type === 'keypress') {
     // Нажат ли enter?
     if (event.code === 'Enter') {
+      localStorage.setItem('city', event.target.innerText);
+      getCity();
      getWeather();
      city.blur();
     }
   }
 }
+
+// Город стор
+function getCity() {
+  city.addEventListener('click', function() {city.textContent = ''});
+  let currentCity = localStorage.getItem('city');
+  if (currentCity === '') { 
+    localStorage.removeItem('city');
+  }
+  if (localStorage.getItem('city') === null) {
+     city.textContent = 'Солигорск';
+   } else{
+    city.textContent = localStorage.getItem('city');
+   }
+ }
+
+city.addEventListener('keypress', setCity);
+getCity();
+
+
 document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
 
 let i = 0;
-const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
+let currentfolder = allTimes[j];
+const basement = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${currentfolder}/`;
 const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
  //Смена фона
  function viewBgImage(data) {
@@ -212,7 +242,7 @@ const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.
 }
 function getImage() {
   const index = i % images.length;
-  const imageSrc = base + images[index];
+  const imageSrc = basement + images[index];
   viewBgImage(imageSrc);
   i++;
   btn.disabled = true;
@@ -223,7 +253,6 @@ btn.addEventListener('click', getImage);
 
 
 //Смена цитаты
-let j = 0;
 async function getQuote() {  
   const url = `https://api.chucknorris.io/jokes/random`;
   const res = await fetch(url);
@@ -231,5 +260,5 @@ async function getQuote() {
   blockquote.textContent = data.value;
   figcaption.textContent = ['True story'];
 }
-//document.addEventListener('DOMContentLoaded', getQuote);
+document.addEventListener('DOMContentLoaded', getQuote);
 btnQot.addEventListener('click', getQuote);
