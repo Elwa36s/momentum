@@ -106,13 +106,19 @@ function setName(e) {
     // Нажат ли enter?
     if (e.which == 13 || e.keyCode == 13) {
       name.blur();
-      if (+enteribleText !== null) {
+      //if (+enteribleText !== null) {
         localStorage.setItem('name', e.target.innerText);
-      }
+        if (+localStorage.getItem('name') === 0) {
+          localStorage.removeItem('name');
+        }
+      //}
   } else {
-    if (+enteribleText !== null) {
+   // if (+enteribleText !== null) {
       localStorage.setItem('name', e.target.innerText);
-    }
+      if (+localStorage.getItem('name') === 0) {
+        localStorage.removeItem('name');
+      }
+   // }
   
   }
   }
@@ -122,11 +128,11 @@ function setName(e) {
 // Поле имени
 function getName() {
  name.addEventListener('click', function() {name.textContent = ''});
- /* if (localStorage.getItem('name') === null) {
+ if (localStorage.getItem('name') === null) {
     name.textContent = '[Введите имя]';
-  } else { */
+  } else { 
     name.textContent = localStorage.getItem('name');
-  /*}*/
+  }
 }
  
 
@@ -233,5 +239,5 @@ async function getQuote() {
   blockquote.textContent = data.value;
   figcaption.textContent = ['True story'];
 }
-//document.addEventListener('DOMContentLoaded', getQuote);
+document.addEventListener('DOMContentLoaded', getQuote);
 btnQot.addEventListener('click', getQuote);
