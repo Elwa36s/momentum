@@ -20,7 +20,9 @@ function showTime() {
     dayWeek = today.getDay(),
     month = today.getMonth(),
     dayNumb = today.getDate();
-
+    if (min == 0 && sec == 0){
+      getImage();
+    }
   // Вывод AM или PM
   const amPm = hour >= 12 ? 'PM' : 'AM';
 
@@ -53,6 +55,8 @@ function addZero(n) {
   return (parseInt(n, 10) < 10 ? '0' : '') + n;
 }
 
+let i = 0;
+    currentTimeOfDay = 0;
 // Установка фона и приветсвие
    let folder = '';
    let allTimes = ['morning', 'day', 'evening', 'night'];
@@ -60,7 +64,8 @@ function addZero(n) {
 function setBgGreet() {
   let today = new Date(),
     hour = today.getHours(),
-    h = hour % 20;
+    h = hour % 6;
+    i = h;
   if (hour < 12 && hour >= 6) {
     // Утро
     j = 0;
@@ -96,6 +101,7 @@ function setBgGreet() {
     document.body.style.color = 'white';
     document.body.style.textShadow = '3px 2px 6px #000000';
   }
+  currentTimeOfDay = j;
 }
 
 
@@ -226,11 +232,15 @@ getCity();
 document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
 
-let i = 0;
-let currentfolder = allTimes[j];
-const basement = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${currentfolder}/`;
+
 const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
- //Смена фона
+ // Рандом порядок
+function random(array) {
+  array.sort(() => Math.random() - 0.5);
+}
+random(images);
+
+//Смена фона
  function viewBgImage(data) {
   const body = document.querySelector('body');
   const src = data;
@@ -241,15 +251,26 @@ const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.
   }; 
 }
 function getImage() {
-  const index = i % images.length;
+  let currentfolder = allTimes[currentTimeOfDay];
+  const basement = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${currentfolder}/`;
+  const index = i % 6;
   const imageSrc = basement + images[index];
   viewBgImage(imageSrc);
+  if (index == 5) {
+    if (currentTimeOfDay == 3) {
+      currentTimeOfDay = 0;
+    } else {
+    currentTimeOfDay += 1;
+  }
+  }
   i++;
   btn.disabled = true;
   setTimeout(function() { btn.disabled = false }, 1000);
 } 
 const btn = document.querySelector('.btn');
 btn.addEventListener('click', getImage);
+
+
 
 
 //Смена цитаты
