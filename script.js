@@ -101,44 +101,42 @@ function setBgGreet() {
 
 // Ввод имени
 function setName(e) {
-  let enteribleText = e.target.innerText;
   if (e.type === 'keypress') {
-    // Нажат ли enter?
+    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
-      name.blur();
-      //if (+enteribleText !== null) {
-        localStorage.setItem('name', e.target.innerText);
-        if (+localStorage.getItem('name') === 0) {
-          localStorage.removeItem('name');
-        }
-      //}
-  } else {
-   // if (+enteribleText !== null) {
       localStorage.setItem('name', e.target.innerText);
-      if (+localStorage.getItem('name') === 0) {
-        localStorage.removeItem('name');
-      }
-   // }
-  
+      name.blur();
+      getName();
+    }
+  } else {
+    localStorage.setItem('name', e.target.innerText);
+     getName();
   }
-  }
+ 
 }
 
 
 // Поле имени
 function getName() {
  name.addEventListener('click', function() {name.textContent = ''});
+ let currentName = localStorage.getItem('name');
+  if (currentName === '') { 
+    localStorage.removeItem('name');
+  }
  if (localStorage.getItem('name') === null) {
     name.textContent = '[Введите имя]';
   } else { 
     name.textContent = localStorage.getItem('name');
   }
 }
- 
-
 
 // Поле цели
 function getFocus() {
+  focus.addEventListener('click', function() {focus.textContent = ''});
+ let currentName = localStorage.getItem('focus');
+  if (currentName === '') { 
+    localStorage.removeItem('focus');
+  }
   if (localStorage.getItem('focus') === null) {
     focus.textContent = '[Введите цель]';
   } else {
@@ -153,22 +151,24 @@ function setFocus(e) {
     if (e.which == 13 || e.keyCode == 13) {
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
+      getFocus()
     }
   } else {
     localStorage.setItem('focus', e.target.innerText);
+    getFocus()
   }
 }
-
-name.addEventListener('keypress', setName);
-name.addEventListener('blur', setName);
-focus.addEventListener('keypress', setFocus);
-focus.addEventListener('blur', setFocus);
-
 // Запуск
 showTime();
 setBgGreet();
 getName();
 getFocus();
+name.addEventListener('keypress', setName);
+name.addEventListener('blur', setName);
+focus.addEventListener('keypress', setFocus);
+focus.addEventListener('blur', setFocus);
+
+
 
 //Погода
 const weatherIcon = document.querySelector('.weather-icon');
@@ -178,6 +178,7 @@ const city = document.querySelector('.city');
 const wind = document.querySelector('.wind');
 
 //Вывод погоды
+
 async function getWeather() {  
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&lang=ru&appid=4ecbcc47cf223a32117b4ef59cbe227c&units=metric`;
   const res = await fetch(url);
@@ -189,19 +190,39 @@ async function getWeather() {
   weatherHumidity.textContent = `Относительная влажность ${data.main.humidity}%`;
   wind.textContent = `Скорость ветра ${data.wind.speed} м/с`
 }
-
-
+let previousCity;
 //Выбор города
 function setCity(event) {
   console.log('event.type = ' + event.type);
   if (event.type === 'keypress') {
     // Нажат ли enter?
     if (event.code === 'Enter') {
+      localStorage.setItem('city', event.target.innerText);
+      getCity();
      getWeather();
      city.blur();
     }
   }
 }
+
+// Город стор
+function getCity() {
+  city.addEventListener('click', function() {city.textContent = ''});
+  let currentCity = localStorage.getItem('city');
+  if (currentCity === '') { 
+    localStorage.removeItem('city');
+  }
+  if (localStorage.getItem('city') === null) {
+     city.textContent = 'Солигорск';
+   } else{
+    city.textContent = localStorage.getItem('city');
+   }
+ }
+
+city.addEventListener('keypress', setCity);
+getCity();
+
+
 document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
 

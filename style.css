@@ -24,6 +24,7 @@ body {
 
 .time {
   font-size: 8rem;
+
 }
 
 h1 {
@@ -45,7 +46,14 @@ h2 {
     font-size: 6rem;
   }
 }
-
+@media (max-height: 700px) {
+  body {
+    justify-content: flex-end;
+  }
+  #lowerRow {
+    margin-bottom: 5%;
+  }
+}
 
 h4 {
 justify-self: baseline;
@@ -76,10 +84,15 @@ margin: 0 10%;
 .quote {
   display: flex;
   flex-direction: column;
+  width: 90%;
 
 }
 #btn2 {
-  margin-top: 2%;
+  position: absolute;
+  display: inline;
+  bottom: 5%;
+  right: 50%;
+  left: 50%;
   }
 
 #btn {
@@ -116,12 +129,24 @@ margin: 0 10%;
 }
 
 .btn:hover {
-  filter: grayscale(.5);
+  filter: contrast(200%);
+  cursor: pointer;
 }
 .btn:active,
 .btn:focus {
   outline: 0;
 }
 .btn:active{
+  transform: scale(1.02)
+}
+.btn2:hover {
+  filter: brightness(200%);
+  cursor: pointer;
+}
+.btn2:active,
+.btn2:focus {
+  outline: 0;
+}
+.btn2:active{
   transform: scale(1.02)
 }
