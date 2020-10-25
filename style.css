@@ -38,7 +38,7 @@ h2 {
   opacity: 0.8;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1150px) {
   html {
     font-size: 14px;
   }
@@ -91,8 +91,7 @@ margin: 0 10%;
   position: absolute;
   display: inline;
   bottom: 5%;
-  right: 50%;
-  left: 50%;
+  right:5%;
   }
 
 #btn {
