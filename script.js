@@ -57,21 +57,36 @@ function addZero(n) {
 
 let i = 0;
     currentTimeOfDay = 0;
+
+
+    const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
+
+// Рандом порядок
+function random(array) {
+  array.sort(() => Math.random() - 0.5);
+}
+random(images);
 // Установка фона и приветсвие
    let folder = '';
    let allTimes = ['morning', 'day', 'evening', 'night'];
    let j;
 function setBgGreet() {
   let today = new Date(),
+    randomImg = Math.round(Math.random() * 19),
+    img = images[randomImg],
     hour = today.getHours(),
     h = hour % 6;
     i = h;
+    if (h === 0) {
+      h = 1;
+    }
   if (hour < 12 && hour >= 6) {
     // Утро
     j = 0;
     folder = allTimes[j];
     const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
-    document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
+    document.body.style.backgroundImage = `url('${base}${img}')`;
+  
     greeting.textContent = 'Доброе утро, ';
   } else if (hour < 18) {
     // День
@@ -79,7 +94,8 @@ function setBgGreet() {
    
     folder = allTimes[j];
     const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
-    document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
+    document.body.style.backgroundImage = `url('${base}${img}')`;
+    
       greeting.textContent = 'Добрый день, ';
   } else if (hour < 24){
     // Вечер
@@ -87,7 +103,7 @@ function setBgGreet() {
     j = 2;
     folder = allTimes[j];
     const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
-    document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
+    document.body.style.backgroundImage = `url('${base}${img}')`;
     greeting.textContent = 'Добрый вечер, ';
     document.body.style.color = 'white';
     document.body.style.textShadow = '3px 2px 6px #000000';
@@ -96,7 +112,7 @@ function setBgGreet() {
       j = 3;
       folder = allTimes[j];
       const base = `https://raw.githubusercontent.com/Elwa36s/momentum/gh-pages/assets/images/${folder}/`;
-      document.body.style.backgroundImage = `url('${base}0${h}.jpg')`;
+      document.body.style.backgroundImage = `url('${base}${img}')`;
     greeting.textContent = 'Доброй ночи, ';
     document.body.style.color = 'white';
     document.body.style.textShadow = '3px 2px 6px #000000';
@@ -233,12 +249,8 @@ document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
 
 
-const images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
- // Рандом порядок
-function random(array) {
-  array.sort(() => Math.random() - 0.5);
-}
-random(images);
+
+
 
 //Смена фона
  function viewBgImage(data) {
