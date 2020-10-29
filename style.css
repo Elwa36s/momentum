@@ -54,7 +54,10 @@ h2 {
     margin-bottom: 5%;
   }
 }
-
+#greetingName {
+  display: flex;
+  flex-direction: inline;
+}
 h4 {
 justify-self: baseline;
 }
@@ -72,6 +75,12 @@ margin: 0 10%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+h4 {
+  font-size: 1.3rem;
+}
+h5 {
+  font-size: 1rem;
 }
 #lowerRow {
   width: 100%;

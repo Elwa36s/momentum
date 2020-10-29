@@ -72,10 +72,10 @@ random(images);
    let j;
 function setBgGreet() {
   let today = new Date(),
-    randomImg = Math.round(Math.random() * 19),
-    img = images[randomImg],
-    hour = today.getHours(),
+    //randomImg = Math.round(Math.random() * 19),
+        hour = today.getHours(),
     h = hour % 6;
+    img = images[h],
     i = h;
     if (h === 0) {
       h = 1;
