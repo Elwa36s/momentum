@@ -72,10 +72,10 @@ random(images);
    let j;
 function setBgGreet() {
   let today = new Date(),
-    randomImg = Math.round(Math.random() * 19),
-    img = images[randomImg],
-    hour = today.getHours(),
+    //randomImg = Math.round(Math.random() * 19),
+        hour = today.getHours(),
     h = hour % 6;
+    img = images[h],
     i = h;
     if (h === 0) {
       h = 1;
@@ -119,8 +119,13 @@ function setBgGreet() {
   }
   currentTimeOfDay = j;
 }
-
-
+// Память имени
+function saveName(){
+  name.addEventListener('click', function() {if (name.textContent !== '') {
+   localStorage.setItem('lastName', name.textContent);
+  }});
+}
+saveName();
 // Ввод имени
 function setName(e) {
   if (e.type === 'keypress') {
@@ -146,21 +151,37 @@ function getName() {
     localStorage.removeItem('name');
   }
  if (localStorage.getItem('name') === null) {
+   if (localStorage.getItem('lastName') === null) {
     name.textContent = '[Введите имя]';
+   } else {
+    name.textContent = localStorage.getItem('lastName');
+  }
   } else { 
     name.textContent = localStorage.getItem('name');
   }
 }
 
+// Память цели
+function saveFocus(){
+  focus.addEventListener('click', function() {if (focus.textContent !== '') {
+   localStorage.setItem('lastFocus', focus.textContent);
+  }});
+}
+saveFocus();
+
 // Поле цели
 function getFocus() {
   focus.addEventListener('click', function() {focus.textContent = ''});
- let currentName = localStorage.getItem('focus');
-  if (currentName === '') { 
+ let currentFocus = localStorage.getItem('focus');
+  if (currentFocus === '') { 
     localStorage.removeItem('focus');
   }
   if (localStorage.getItem('focus') === null) {
-    focus.textContent = '[Введите цель]';
+    if (localStorage.getItem('lastFocus') === null) {
+      focus.textContent = '[Введите цель]';
+     } else {
+      focus.textContent = localStorage.getItem('lastFocus');
+    }
   } else {
     focus.textContent = localStorage.getItem('focus');
   }
